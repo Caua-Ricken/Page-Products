@@ -1,0 +1,140 @@
+.dashboard {
+    width: 100%;
+  }
+  
+  .title h2 {
+    margin: 0 0 8px;
+    color: #fff5dc;
+    font-size: 32px;
+    font-weight: 700;
+  }
+  
+  .title p {
+    margin: 0;
+    color: #9aa7bb;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+  }
+  
+  .cards {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  
+  .card {
+    min-height: 118px;
+    padding: 20px;
+    background: #131820;
+    border: 1px solid #2b3545;
+    border-radius: 10px;
+  }
+  
+  .card span {
+    display: block;
+    margin-bottom: 18px;
+    color: #9aa7bb;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+  }
+  
+  .card strong {
+    display: block;
+    color: #fff5dc;
+    font-size: 40px;
+    line-height: 1;
+    font-weight: 700;
+  }
+  
+  .card .red {
+    color: #ff6b5f;
+  }
+  
+  .card p {
+    margin: 10px 0 0;
+    color: #9aa7bb;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+  }
+  
+  .alerts {
+    margin-top: 26px;
+    padding: 20px;
+    background: #131820;
+    border: 1px solid #2b3545;
+    border-radius: 10px;
+  }
+  
+  .alerts h3 {
+    display: inline;
+    margin: 0;
+    color: #fff5dc;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  
+  .alerts .small {
+    margin-left: 8px;
+    color: #9aa7bb;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+  }
+  
+  .alert-list {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .alert-item {
+    min-height: 55px;
+    padding: 13px 15px;
+    background: #3b252b;
+    border-radius: 8px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .alert-item h4 {
+    margin: 0 0 4px;
+    color: #fff5dc;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  
+  .alert-item p {
+    margin: 0;
+    color: #b7a1a8;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+  }
+  
+  .alert-item strong {
+    color: #ff6b5f;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  
+  @media (max-width: 900px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  
+    .alert-item {
+      align-items: flex-start;
+      gap: 15px;
+    }
+  }

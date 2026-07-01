@@ -1,0 +1,148 @@
+.modal-mov-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+  
+    background: rgba(0, 0, 0, 0.75);
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-mov {
+    width: 460px;
+    max-width: calc(100% - 32px);
+  
+    background: #151a22;
+    border: 1px solid #2b3545;
+    border-radius: 14px;
+  
+    overflow: hidden;
+    color: #fff5dc;
+  }
+  
+  .modal-mov-header {
+    padding: 20px;
+    border-bottom: 1px solid #2b3545;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .modal-mov-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  
+  .modal-mov-header button {
+    border: none;
+    background: transparent;
+    color: #9aa7bb;
+  
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .modal-mov-form {
+    padding: 20px;
+  }
+  
+  .mov-form-group {
+    margin-bottom: 16px;
+  }
+  
+  .mov-form-group label {
+    display: block;
+    margin-bottom: 8px;
+  
+    color: #9aa7bb;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  
+  .mov-form-group input,
+  .mov-form-group select,
+  .mov-form-group textarea {
+    width: 100%;
+  
+    background: #1d232e;
+    color: #fff5dc;
+  
+    border: 1px solid #323b4d;
+    border-radius: 8px;
+  
+    padding: 13px;
+  
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+  
+    outline: none;
+  }
+  
+  .mov-form-group textarea {
+    min-height: 64px;
+    resize: vertical;
+  }
+  
+  .mov-form-group input:focus,
+  .mov-form-group select:focus,
+  .mov-form-group textarea:focus {
+    border-color: #d3ad4d;
+  }
+  
+  .mov-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .modal-mov-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .btn-cancelar,
+  .btn-salvar {
+    height: 38px;
+    padding: 0 18px;
+  
+    border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+  
+    cursor: pointer;
+  }
+  
+  .btn-cancelar {
+    background: transparent;
+    color: #9aa7bb;
+    border: 1px solid #2b3545;
+  }
+  
+  .btn-salvar {
+    background: #d3ad4d;
+    color: #111827;
+    border: none;
+  }
+  
+  @media (max-width: 520px) {
+    .mov-form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  
+    .modal-mov-actions {
+      flex-direction: column;
+    }
+  
+    .btn-cancelar,
+    .btn-salvar {
+      width: 100%;
+    }
+  }

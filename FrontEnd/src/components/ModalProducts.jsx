@@ -11,7 +11,7 @@ const ModalProducts = ({ open, modo, produto, onClose, onProdutoCadastrado }) =>
 
   const buscarCategorias = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/categoria");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/categoria");
       const data = await res.json();
 
       setCategorias(data);
@@ -72,8 +72,8 @@ const ModalProducts = ({ open, modo, produto, onClose, onProdutoCadastrado }) =>
   try {
     const url =
       modo === "editar"
-        ? `http://localhost:3000/api/produto/editar/${produto.id}`
-        : "http://localhost:3000/api/produto";
+        ? `https://todo-list-ajcm.onrender.com/api/produto/editar/${produto.id}`
+        : "https://todo-list-ajcm.onrender.com/api/produto";
 
     const method = modo === "editar" ? "PUT" : "POST";
 

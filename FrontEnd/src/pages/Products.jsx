@@ -18,7 +18,7 @@ function Products() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/categoria");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/categoria");
       const data = await res.json();
       setCategorias(data);
 
@@ -39,7 +39,7 @@ function Products() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/produto");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/produto");
       const data = await res.json();
       setProdutos(data);
 
@@ -62,7 +62,7 @@ function Products() {
     setLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:3000/api/produto/${id}`, {
+      const res = await fetch(`https://todo-list-ajcm.onrender.com/api/produto/${id}`, {
         method: "DELETE",
       });
 

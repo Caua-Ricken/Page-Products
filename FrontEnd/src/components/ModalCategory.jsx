@@ -49,8 +49,8 @@ const salvarCategoria = async (e) => {
   try {
     const url =
       modo === "editar"
-        ? `http://localhost:3000/api/categoria/editar/${categoria.id}`
-        : "http://localhost:3000/api/categoria";
+        ? "https://todo-list-ajcm.onrender.com/api/categoria/editar/${categoria.id}"
+        : "https://todo-list-ajcm.onrender.com/api/categoria";
 
     const method = modo === "editar" ? "PUT" : "POST";
 

@@ -21,6 +21,16 @@ function Dashboard() {
         <p>Resumo do catálogo e do estoque atual.</p>
       </div>
 
+      <div className="dashboard-info">
+  <span>📊 Dashboard ilustrativa</span>
+  <p>
+    Os dados apresentados nesta tela são apenas ilustrativos e servem para
+    demonstrar o funcionamento do sistema de gerenciamento de produtos e estoque.
+  </p>
+</div>
+
+    
+
       <div className="cards">
         <div className="card">
           <span>CATEGORIAS</span>

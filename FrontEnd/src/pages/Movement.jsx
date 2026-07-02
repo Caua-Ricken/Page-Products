@@ -28,6 +28,10 @@ function Movement() {
         </div>
       </div>
 
+      <div className="movimentacoes-empty">
+        <p className="movimentacoes-text">Em Breve!</p>
+      </div>
+
       <div className="table-box">
         <table>
           <thead>

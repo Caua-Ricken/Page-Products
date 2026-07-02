@@ -110,3 +110,22 @@ td {
   height: 30px;
   cursor: pointer;
 }
+
+.movimentacoes-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.movimentacoes-text {
+  background: #424141;
+  padding: 2rem 4rem;
+  border: 2px solid #dcdcdc;
+  border-radius: 16px;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #172232;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}

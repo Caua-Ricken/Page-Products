@@ -54,7 +54,7 @@ function Products() {
 
   const deleteProduto = async (id) => {
      const confirmDelete = window.confirm(
-      "Deseja realmente excluir esta categoria?"
+      "Deseja realmente excluir este produto? Esta ação também excluirá todas as movimentações relacionadas a ele."
     );
 
     if (!confirmDelete) return;

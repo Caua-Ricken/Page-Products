@@ -7,11 +7,13 @@ function Movement() {
   const [movimentacoes, setMovimentacoes] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [filtroTipo, setFiltroTipo] = useState("ENTRADA");
+
   const buscarMovimentações = async () => {
     setLoading(true);
 
     try {
-      const res = await fetch("https://localhost:3000/api/movimentacoes");
+      const res = await fetch("http://localhost:3000/api/movimentacoes");
       if (!res.ok) {
         throw new Error("Erro ao buscar movimentações");
       }
@@ -31,6 +33,10 @@ function Movement() {
     buscarMovimentações();
   }, []);
 
+  const filtrados = filtroTipo 
+  ? movimentacoes.filter((item) => item.tipo === filtroTipo)
+  : movimentacoes;
+
   return (
     <section className="movimentacoes">
       <div className="movimentacoes-top">
@@ -42,10 +48,13 @@ function Movement() {
         </div>
 
         <div className="movimentacoes-actions">
-          <select>
-            <option>Entradas e saídas</option>
-            <option>Entradas</option>
-            <option>Saídas</option>
+          <select
+            value={filtroTipo}
+            onChange={(e) => setFiltroTipo(e.target.value)}
+          >
+            <option value="">Todos os tipos</option>
+            <option value="entrada">Entradas</option>
+            <option value="saida">Saídas</option>
           </select>
 
           <button onClick={() => setOpen(true)}>+ Nova movimentação</button>
@@ -67,8 +76,8 @@ function Movement() {
           </thead>
 
           <tbody>
-  {movimentacoes.length > 0 ? (
-    movimentacoes.map((item) => (
+  {filtrados.length > 0 ? (
+    filtrados.map((item) => (
       <tr key={item.id}>
         <td>{item.data}</td>
         <td>{item.produto?.nome || "Produto não encontrado"}</td>

@@ -42,25 +42,51 @@ module.exports = {
         }
     },
 
+
+
+
     async deletarProduto(req, res) {
         const { id } = req.params;
 
         try {
+            console.log("ID recebido:", id);
+
             const produto = await Produto.findByPk(id);
 
             if (!produto) {
                 return res.status(404).json({ error: "Produto não encontrado" });
             }
 
+            const movimentacoes = await Movimentacoes.findAll({
+                where: { produtoId: id },
+                raw: true,
+            });
+
+            console.log("Movimentações encontradas:", movimentacoes);
+
+            const qtdApagadas = await Movimentacoes.destroy({
+                where: { produtoId: id },
+            });
+
+            console.log("Quantidade apagada:", qtdApagadas);
+
             await produto.destroy();
-            res.status(200).json({ message: "Produto deletado com sucesso" });
+
+            return res.status(200).json({
+                message: "Produto e movimentações deletados com sucesso",
+            });
+
         } catch (error) {
             console.error("Erro ao deletar produto:", error);
-            res.status(500).json({ error: "Erro ao deletar produto" });
+
+            return res.status(500).json({
+                error: "Erro ao deletar produto",
+                details: error.message,
+            });
         }
     },
 
-    async editarProduto(req,res) {
+    async editarProduto(req, res) {
         const { id } = req.params;
         const { nome, descricao, categoriaId, estoque, preco } = req.body;
 
@@ -96,7 +122,7 @@ module.exports = {
             res.status(500).json({ error: "Erro ao buscar produtos" });
         }
     },
-    
+
 
 
 }

@@ -11,7 +11,7 @@ function Movement() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://todo-list-ajcm.onrender.com/api/movimentacoes");
+      const res = await fetch("https://localhost:3000/api/movimentacoes");
       if (!res.ok) {
         throw new Error("Erro ao buscar movimentações");
       }

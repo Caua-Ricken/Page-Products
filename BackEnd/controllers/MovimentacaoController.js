@@ -3,11 +3,12 @@ const { Movimentacoes, Produto } = require("../models/index");
 module.exports = {
 
     async createMovimentacao(req, res) {
-        const { produto, tipo, quantidade, data, observacao } = req.body;
+        const { tipo, quantidade, data, observacao } = req.body;
+        const produtoId = Number(req.body.produtoId); 
 
         try {
             const novaMovimentacao = await Movimentacoes.create({
-                produto, tipo, quantidade, data, observacao
+                produtoId, tipo, quantidade, data, observacao
             })
             res.status(201).json(novaMovimentacao);
         } catch (error) {

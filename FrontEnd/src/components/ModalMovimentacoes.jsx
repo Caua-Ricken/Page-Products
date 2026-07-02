@@ -2,13 +2,12 @@ import "../../public/css/ComponentsCss/modalMovimentacoes.css";
 import { useState, useEffect } from "react";
 
 function ModalMovimentacoes({ open, onClose, onSubmit }) {
-  if (!open) return null;
 
   const [dados, setDados] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [produto, setProduto] = useState({
-    produto: "",
+    produtoId: "",
     tipo: "entrada",
     quantidade: 1,
     data: new Date().toISOString().split("T")[0],
@@ -27,6 +26,8 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
 
     setLoading(true);
 
+    console.log("Enviando movimentação:", produto);
+
     try {
       const res = await fetch("https://todo-list-ajcm.onrender.com/api/movimentacoes", {
         method: "POST",
@@ -39,19 +40,19 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
       const data = await res.json();
 
       if (!res.ok) {
-      console.log("Erro da API:", data);
-      return;
-    }
+        console.log("Erro da API:", data);
+        return;
+      }
 
-    setProduto({
-      produto: "",
-      tipo: "entrada",
-      quantidade: 1,
-      data: new Date().toISOString().split("T")[0],
-      observacao: "",
-    });
+      setProduto({
+        produtoId: "",
+        tipo: "entrada",
+        quantidade: 1,
+        data: new Date().toISOString().split("T")[0],
+        observacao: "",
+      });
 
-    onClose();
+      onClose();
 
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -71,20 +72,21 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
       if (!res.ok) {
         console.log("Erro da API:", data);
       }
-  } catch (error) {
+    } catch (error) {
       console.error("Erro ao buscar produtos:", error);
-  } finally {
+    } finally {
       setLoading(false);
     }
-};
+  };
 
-useEffect(() => {
-  if (open) {
-    buscarProdutos();
-  }
-}, [open]);
+  useEffect(() => {
+    if (open) {
+      buscarProdutos();
+    }
+  }, [open]);
 
-  
+
+  if (!open) return null;
 
   return (
     <div className="modal-mov-overlay">
@@ -97,13 +99,19 @@ useEffect(() => {
         <form className="modal-mov-form" onSubmit={handleFormSubmit}>
           <div className="mov-form-group">
             <label>PRODUTO</label>
-            <select name="produto" value={produto.produto} onChange={handleChange}>
+            <select
+              name="produtoId"
+              value={produto.produtoId}
+              onChange={handleChange}
+              required
+            >
               <option value="">Selecione um produto</option>
+
               {dados.map((item) => (
-                <option key={item.id} value={item.nome}>
+                <option key={item.id} value={item.id}>
                   {item.nome}
                 </option>
-                ))}
+              ))}
             </select>
           </div>
 
@@ -122,7 +130,7 @@ useEffect(() => {
                 name="quantidade"
                 type="number"
                 min="1"
-                value={produto.quantidade} 
+                value={produto.quantidade}
                 onChange={handleChange}
                 required
               />

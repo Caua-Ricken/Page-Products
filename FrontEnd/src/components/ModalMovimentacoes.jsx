@@ -29,7 +29,7 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
     console.log("Enviando movimentação:", produto);
 
     try {
-      const res = await fetch("https://todo-list-ajcm.onrender.com/api/movimentacoes", {
+      const res = await fetch("http://localhost:3000/api/movimentacoes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +64,7 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
   const buscarProdutos = async () => {
     setLoading(true);
     try {
-      const res = await fetch("https://todo-list-ajcm.onrender.com/api/produto/buscar");
+      const res = await fetch("http://localhost:3000/api/produto/buscar");
       const data = await res.json();
 
       setDados(data);

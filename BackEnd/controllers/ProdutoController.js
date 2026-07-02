@@ -1,4 +1,4 @@
-const { Produto, Categoria } = require("../models/index");
+const { Produto, Categoria, Movimentacoes } = require("../models/index");
 
 module.exports = {
 

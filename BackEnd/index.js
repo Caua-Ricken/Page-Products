@@ -18,7 +18,7 @@ app.use('/api', api)
 
 const listen = async () => {
     try {
-        await conn.sync({});
+        await conn.sync({force: true});
         app.listen(PORT, () => {
         console.log(`Servidor rodando na porta ${PORT}`);
     });

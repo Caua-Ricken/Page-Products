@@ -34,6 +34,12 @@ const Movimentacoes = conn.define('movimentacoes', {
         allowNull: true,
         field: 'mov_observacao'
       },
+
+      produtoId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'mov_produto_id',
+      }
     },
     {
       tableName: "movimentacoes",

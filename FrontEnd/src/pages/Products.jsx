@@ -18,7 +18,7 @@ function Products() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/categoria");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/categoria");
       const data = await res.json();
       setCategorias(data);
 
@@ -39,7 +39,7 @@ function Products() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/produto");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/produto");
       const data = await res.json();
       setProdutos(data);
 
@@ -53,7 +53,7 @@ function Products() {
 
 
   const deleteProduto = async (id) => {
-     const confirmDelete = window.confirm(
+    const confirmDelete = window.confirm(
       "Deseja realmente excluir este produto? Esta ação também excluirá todas as movimentações relacionadas a ele."
     );
 
@@ -62,31 +62,34 @@ function Products() {
     setLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:3000/api/produto/${id}`, {
+      const res = await fetch(`https://todo-list-ajcm.onrender.com/api/produto/${id}`, {
         method: "DELETE",
       });
 
-      if(!res.ok) {
-        throw new Error("Erro ao deletar produto");
-      }
       const data = await res.json();
-      console.log(data);
+
+      if (!res.ok) {
+        alert(data.error || "Erro ao deletar produto");
+        return;
+      }
+
+      alert(data.message);
       buscarProdutos();
 
-  } catch (error) {
-    console.log("erro ao deletar produto:", error);
+    } catch (error) {
+      console.log("erro ao deletar produto:", error);
 
-  } finally {
-    setLoading(false);
-  }
-};
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
-const produtosFiltrados = categoriaFiltro
-  ? produtos.filter(
+  const produtosFiltrados = categoriaFiltro
+    ? produtos.filter(
       (produto) => String(produto.categoriaId) === String(categoriaFiltro)
     )
-  : produtos;
+    : produtos;
 
   return (
     <section className="produtos">
@@ -100,9 +103,9 @@ const produtosFiltrados = categoriaFiltro
 
         <div className="header-actions">
 
-          <select 
+          <select
             value={categoriaFiltro}
-  onChange={(e) => setCategoriaFiltro(e.target.value)}>
+            onChange={(e) => setCategoriaFiltro(e.target.value)}>
             <option>Todas as categorias</option>
             {categorias.map((categoria) => (
               <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
@@ -143,7 +146,7 @@ const produtosFiltrados = categoriaFiltro
                 <span className="categoria">
                   {produto.categoria}
                 </span>
-              </div>  
+              </div>
 
               <strong>{produto.preco}</strong>
 
@@ -166,6 +169,12 @@ const produtosFiltrados = categoriaFiltro
             </div>
 
           ))
+        )}
+
+        {loading && (
+          <div className="loading-container">
+            <p className="loading-message">Carregando...</p>
+          </div>
         )}
       </div>
 

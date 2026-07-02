@@ -35,28 +35,41 @@ module.exports = {
     },
 
     async deleteCategoria(req, res) {
-        const { id } = req.params;
+  const { id } = req.params;
 
-        try {
-            const deletar = await Categoria.findByPk(id);
+  try {
+    const categoria = await Categoria.findByPk(id);
 
-            if (!deletar) {
-                return res.status(404).json({
-                    error: "Categoria não encontrada"
-                });
-            }
+    if (!categoria) {
+      return res.status(404).json({
+        error: "Categoria não encontrada",
+      });
+    }
 
-            await deletar.destroy();
+    const produtoVinculado = await Produto.findOne({
+      where: { categoriaId: id },
+    });
 
-            res.json({
-                message: "categoria excluído com sucesso"
-            });
+    if (produtoVinculado) {
+      return res.status(400).json({
+        error: "Não é possível excluir esta categoria, pois existem produtos vinculados a ela.",
+      });
+    }
 
-        } catch (error) {
-            console.error("Erro ao excluir categoria:", error);
-            res.status(500).json({ error: "Erro ao excluir categoria" });
-        }
-    },
+    await categoria.destroy();
+
+    return res.status(200).json({
+      message: "Categoria excluída com sucesso.",
+    });
+
+  } catch (error) {
+    console.error("Erro ao excluir categoria:", error);
+
+    return res.status(500).json({
+      error: "Erro ao excluir categoria",
+    });
+  }
+},
 
     async editarCategoria(req, res) {
         const { id } = req.params;

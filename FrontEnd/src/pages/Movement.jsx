@@ -7,17 +7,17 @@ function Movement() {
   const [movimentacoes, setMovimentacoes] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [filtroTipo, setFiltroTipo] = useState("ENTRADA");
+  const [filtroTipo, setFiltroTipo] = useState("");
 
   const buscarMovimentações = async () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/movimentacoes");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/movimentacoes");
       if (!res.ok) {
         throw new Error("Erro ao buscar movimentações");
       }
-      
+
       const data = await res.json();
       setMovimentacoes(data);
       console.log("Movimentações:", data);
@@ -31,11 +31,36 @@ function Movement() {
 
   useEffect(() => {
     buscarMovimentações();
-  }, []);
+  }, [open, filtroTipo]);
 
-  const filtrados = filtroTipo 
-  ? movimentacoes.filter((item) => item.tipo === filtroTipo)
-  : movimentacoes;
+  const filtrados = filtroTipo
+    ? movimentacoes.filter((item) => item.tipo === filtroTipo)
+    : movimentacoes;
+
+
+  const deleteMovimentacao = async (id) => {
+    const confirmDelete = window.confirm(
+      "Deseja realmente excluir esta movimentação?"
+    );
+
+    if (!confirmDelete) return;
+    setLoading(true);
+
+    try {
+      const res = await fetch(`https://todo-list-ajcm.onrender.com/api/movimentacoes/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        throw new Error("Erro ao deletar movimentação");
+      }
+    } catch (error) {
+      console.error("Erro ao deletar movimentação:", error);
+    } finally {
+      setLoading(false);
+      buscarMovimentações();
+    }
+  };
+
 
   return (
     <section className="movimentacoes">
@@ -76,36 +101,42 @@ function Movement() {
           </thead>
 
           <tbody>
-  {filtrados.length > 0 ? (
-    filtrados.map((item) => (
-      <tr key={item.id}>
-        <td>{item.data}</td>
-        <td>{item.produto?.nome || "Produto não encontrado"}</td>
-        <td>
-          <span
-            className={`badge ${
-              item.tipo === "ENTRADA" ? "entrada" : "saida"
-            }`}
-          >
-            {item.tipo}
-          </span>
-        </td>
-        <td>{item.quantidade}</td>
-        <td>{item.observacao}</td>
-        <td>
-          <button className="delete-btn">🗑</button>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="6" className="empty-table">
-        Nenhuma movimentação cadastrada.
-      </td>
-    </tr>
-  )}
-</tbody>
+            {filtrados.length > 0 ? (
+              filtrados.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.data}</td>
+                  <td>{item.produto?.nome || "Produto não encontrado"}</td>
+                  <td>
+                    <span
+                      className={`badge ${item.tipo === "entrada" ? "entrada" : "saida"
+                        }`}
+                    >
+                      {item.tipo}
+                    </span>
+                  </td>
+                  <td>{item.quantidade}</td>
+                  <td>{item.observacao}</td>
+                  <td>
+                    <button className="delete-btn" onClick={() => deleteMovimentacao(item.id)}>
+                      🗑
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="empty-table">
+                  Nenhuma movimentação cadastrada.
+                </td>
+              </tr>
+            )}
+          </tbody>
         </table>
+        {loading && (
+          <div className="loading-container">
+            <p className="loading-message">Carregando...</p>
+          </div>
+        )}
       </div>
       <ModalMovimentacoes open={open} onClose={() => setOpen(false)} />
     </section>

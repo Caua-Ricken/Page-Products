@@ -11,7 +11,7 @@ const ModalProducts = ({ open, modo, produto, onClose, onProdutoCadastrado }) =>
 
   const buscarCategorias = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/categoria");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/categoria");
       const data = await res.json();
 
       setCategorias(data);
@@ -47,68 +47,68 @@ const ModalProducts = ({ open, modo, produto, onClose, onProdutoCadastrado }) =>
   };
 
 
-    useEffect(() => {
-  if (modo === "editar" && produto) {
-    setDados({
-      nome: produto.nome || "",
-      descricao: produto.descricao || "",
-    });
-  } else {
-    setDados({
-      nome: "",
-      descricao: "",
-      categoriaId: "",
-      estoque: "",
-      preco: "",
-    });
-  };
-}, [produto, modo, open]);
+  useEffect(() => {
+    if (modo === "editar" && produto) {
+      setDados({
+        nome: produto.nome || "",
+        descricao: produto.descricao || "",
+      });
+    } else {
+      setDados({
+        nome: "",
+        descricao: "",
+        categoriaId: "",
+        estoque: "",
+        preco: "",
+      });
+    };
+  }, [produto, modo, open]);
 
 
   const salvarProduto = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const url =
-      modo === "editar"
-        ? `http://localhost:3000/api/produto/editar/${produto.id}`
-        : "http://localhost:3000/api/produto";
+    try {
+      const url =
+        modo === "editar"
+          ? `https://todo-list-ajcm.onrender.com/api/produto/editar/${produto.id}`
+          : "https://todo-list-ajcm.onrender.com/api/produto";
 
-    const method = modo === "editar" ? "PUT" : "POST";
+      const method = modo === "editar" ? "PUT" : "POST";
 
-    const res = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dados),
-    });
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dados),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!res.ok) {
-      console.log("Erro da API:", data);
-      return;
+      if (!res.ok) {
+        console.log("Erro da API:", data);
+        return;
+      }
+
+      setDados({
+        nome: "",
+        descricao: "",
+        categoriaId: "",
+        estoque: "",
+        preco: "",
+      });
+
+      onClose();
+      onProdutoCadastrado();
+
+    } catch (error) {
+      console.log("Erro ao salvar produto:", error);
+    } finally {
+      setLoading(false);
     }
-
-    setDados({
-      nome: "",
-      descricao: "",
-      categoriaId: "",
-      estoque: "",
-      preco: "",
-    });
-
-    onClose();
-    onProdutoCadastrado();
-
-  } catch (error) {
-    console.log("Erro ao salvar produto:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 
 
@@ -198,6 +198,11 @@ const ModalProducts = ({ open, modo, produto, onClose, onProdutoCadastrado }) =>
           </div>
         </form>
       </div>
+      {loading && (
+        <div className="loading-container">
+          <p className="loading-message">Carregando...</p>
+        </div>
+      )}
     </div>
   );
 };

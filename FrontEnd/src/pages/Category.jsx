@@ -14,7 +14,7 @@ function Category() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3000/api/categoria");
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/categoria");
       const data = await res.json();
       setCategorias(data);
 
@@ -42,18 +42,18 @@ function Category() {
     setLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:3000/api/categoria/${id}`, {
+      const res = await fetch(`https://todo-list-ajcm.onrender.com/api/categoria/${id}`, {
         method: "DELETE",
       });
 
       const data = await res.json();
-      console.log(data)
 
       if (!res.ok) {
-        console.log("Erro ao excluir categoria:", data);
+        alert(data.error);
         return;
       }
 
+      alert(data.message);
       buscarCategorias();
 
     } catch (error) {
@@ -103,6 +103,12 @@ function Category() {
               </div>
             </div>
           ))
+        )}
+
+        {loading && (
+          <div className="loading-container">
+            <p className="loading-message">Carregando...</p>
+          </div>
         )}
       </div>
 

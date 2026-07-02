@@ -45,35 +45,31 @@ module.exports = {
 
 
 
+
     async deletarProduto(req, res) {
         const { id } = req.params;
 
         try {
-            console.log("ID recebido:", id);
-
             const produto = await Produto.findByPk(id);
 
             if (!produto) {
                 return res.status(404).json({ error: "Produto não encontrado" });
             }
 
-            const movimentacoes = await Movimentacoes.findAll({
-                where: { produtoId: id },
-                raw: true,
-            });
-
-            console.log("Movimentações encontradas:", movimentacoes);
-
-            const qtdApagadas = await Movimentacoes.destroy({
+            const movimentacaoVinculada = await Movimentacoes.findOne({
                 where: { produtoId: id },
             });
 
-            console.log("Quantidade apagada:", qtdApagadas);
+            if (movimentacaoVinculada) {
+                return res.status(400).json({
+                    error: "Não é possível excluir este produto, pois ele possui movimentações vinculadas.",
+                });
+            }
 
             await produto.destroy();
 
             return res.status(200).json({
-                message: "Produto e movimentações deletados com sucesso",
+                message: "Produto deletado com sucesso",
             });
 
         } catch (error) {

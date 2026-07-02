@@ -13,14 +13,14 @@ function ModalCategory({
   const titulo = modo === "editar" ? "Editar categoria" : "Nova categoria";
   const textoBotao = modo === "editar" ? "Salvar alterações" : "Criar categoria";
 
-    const [dados, setDados] = useState({
-      nome: "",
-      descricao: "",
-    });
-  
-    const [loading, setLoading] = useState(false);
+  const [dados, setDados] = useState({
+    nome: "",
+    descricao: "",
+  });
 
-   const handleChanche = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleChanche = (e) => {
     setDados({
       ...dados,
       [e.target.name]: e.target.value
@@ -29,60 +29,60 @@ function ModalCategory({
 
 
   useEffect(() => {
-  if (modo === "editar" && categoria) {
-    setDados({
-      nome: categoria.nome || "",
-      descricao: categoria.descricao || "",
-    });
-  } else {
-    setDados({
-      nome: "",
-      descricao: "",
-    });
-  }
-}, [categoria, modo, open]);
-
-const salvarCategoria = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-
-  try {
-    const url =
-      modo === "editar"
-        ? "http://localhost:3000/api/categoria/editar/${categoria.id}"
-        : "http://localhost:3000/api/categoria";
-
-    const method = modo === "editar" ? "PUT" : "POST";
-
-    const res = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dados),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      console.log("Erro da API:", data);
-      return;
+    if (modo === "editar" && categoria) {
+      setDados({
+        nome: categoria.nome || "",
+        descricao: categoria.descricao || "",
+      });
+    } else {
+      setDados({
+        nome: "",
+        descricao: "",
+      });
     }
+  }, [categoria, modo, open]);
 
-    setDados({
-      nome: "",
-      descricao: "",
-    });
+  const salvarCategoria = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    onClose();
-    onCategoriaCadastrada();
+    try {
+      const url =
+        modo === "editar"
+          ? "https://todo-list-ajcm.onrender.com/api/categoria/editar/${categoria.id}"
+          : "https://todo-list-ajcm.onrender.com/api/categoria";
 
-  } catch (error) {
-    console.log("Erro ao salvar categoria:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+      const method = modo === "editar" ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dados),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log("Erro da API:", data);
+        return;
+      }
+
+      setDados({
+        nome: "",
+        descricao: "",
+      });
+
+      onClose();
+      onCategoriaCadastrada();
+
+    } catch (error) {
+      console.log("Erro ao salvar categoria:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   return (
@@ -128,6 +128,12 @@ const salvarCategoria = async (e) => {
           </div>
         </form>
       </div>
+      {loading && (
+        <div className="loading-container">
+          <p className="loading-message">Carregando...</p>
+        </div>
+      )}
+
     </div>
   );
 }

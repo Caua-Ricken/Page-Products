@@ -1,11 +1,35 @@
 import "../../public/css/PagesCss/movement.css";
 import ModalMovimentacoes from "../components/ModalMovimentacoes";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Movement() {
   const [open, setOpen] = useState(false);
   const [movimentacoes, setMovimentacoes] = useState([]);
-  
+  const [loading, setLoading] = useState(false);
+
+  const buscarMovimentações = async () => {
+    setLoading(true);
+
+    try {
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/movimentacoes");
+      if (!res.ok) {
+        throw new Error("Erro ao buscar movimentações");
+      }
+      
+      const data = await res.json();
+      setMovimentacoes(data);
+      console.log("Movimentações:", data);
+
+    } catch (error) {
+      console.error("Erro ao buscar movimentações:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    buscarMovimentações();
+  }, []);
 
   return (
     <section className="movimentacoes">
@@ -28,9 +52,6 @@ function Movement() {
         </div>
       </div>
 
-      <div className="movimentacoes-empty">
-        <p className="movimentacoes-text">Em Breve!</p>
-      </div>
 
       <div className="table-box">
         <table>
@@ -46,23 +67,35 @@ function Movement() {
           </thead>
 
           <tbody>
-            {movimentacoes.map((item) => (
-              <tr key={item.id}>
-                <td>{item.data}</td>
-                <td>{item.produto}</td>
-                <td>
-                  <span className={`badge ${item.tipo === "ENTRADA" ? "entrada" : "saida"}`}>
-                    {item.tipo}
-                  </span>
-                </td>
-                <td>{item.quantidade}</td>
-                <td>{item.observacao}</td>
-                <td>
-                  <button className="delete-btn">🗑</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+  {movimentacoes.length > 0 ? (
+    movimentacoes.map((item) => (
+      <tr key={item.id}>
+        <td>{item.data}</td>
+        <td>{item.produto?.nome || "Produto não encontrado"}</td>
+        <td>
+          <span
+            className={`badge ${
+              item.tipo === "ENTRADA" ? "entrada" : "saida"
+            }`}
+          >
+            {item.tipo}
+          </span>
+        </td>
+        <td>{item.quantidade}</td>
+        <td>{item.observacao}</td>
+        <td>
+          <button className="delete-btn">🗑</button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="6" className="empty-table">
+        Nenhuma movimentação cadastrada.
+      </td>
+    </tr>
+  )}
+</tbody>
         </table>
       </div>
       <ModalMovimentacoes open={open} onClose={() => setOpen(false)} />

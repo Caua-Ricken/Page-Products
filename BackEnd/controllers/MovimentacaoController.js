@@ -17,5 +17,16 @@ module.exports = {
         }
     },
 
+    async getAllMovimentacoes(req, res) {
+        try {
+            const movimentacoes = await Movimentacoes.findAll({
+                include: [{ model: Produto, attributes: ['nome'] }]
+            });
+            res.status(200).json(movimentacoes);
+        } catch (error) {
+            console.error("Erro ao buscar movimentações:", error);
+            res.status(500).json({ error: "Erro ao buscar movimentações" });
+        }
+    },
 
 }

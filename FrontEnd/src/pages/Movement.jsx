@@ -1,25 +1,67 @@
 import "../../public/css/PagesCss/movement.css";
+import ModalMovimentacoes from "../components/ModalMovimentacoes";
+import { useState } from "react";
 
 function Movement() {
+  const [open, setOpen] = useState(false);
+  const [movimentacoes, setMovimentacoes] = useState([]);
+  
+
   return (
     <section className="movimentacoes">
-      <div className="movimentacoes-header">
+      <div className="movimentacoes-top">
         <div>
           <h2>Movimentações de estoque</h2>
-          <p>Controle de entradas e saídas de produtos.</p>
+          <p>
+            Toda entrada ou saída ajusta automaticamente o estoque do produto.
+          </p>
+        </div>
+
+        <div className="movimentacoes-actions">
+          <select>
+            <option>Entradas e saídas</option>
+            <option>Entradas</option>
+            <option>Saídas</option>
+          </select>
+
+          <button onClick={() => setOpen(true)}>+ Nova movimentação</button>
         </div>
       </div>
 
-      <div className="coming-soon">
-        <div className="coming-soon-icon">🚧</div>
+      <div className="table-box">
+        <table>
+          <thead>
+            <tr>
+              <th>DATA</th>
+              <th>PRODUTO</th>
+              <th>TIPO</th>
+              <th>QUANTIDADE</th>
+              <th>OBSERVAÇÃO</th>
+              <th></th>
+            </tr>
+          </thead>
 
-        <h3>Em breve...</h3>
-
-        <p>
-          O módulo de movimentações de estoque está em desenvolvimento e será
-          disponibilizado em uma próxima atualização do sistema.
-        </p>
+          <tbody>
+            {movimentacoes.map((item) => (
+              <tr key={item.id}>
+                <td>{item.data}</td>
+                <td>{item.produto}</td>
+                <td>
+                  <span className={`badge ${item.tipo === "ENTRADA" ? "entrada" : "saida"}`}>
+                    {item.tipo}
+                  </span>
+                </td>
+                <td>{item.quantidade}</td>
+                <td>{item.observacao}</td>
+                <td>
+                  <button className="delete-btn">🗑</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+      <ModalMovimentacoes open={open} onClose={() => setOpen(false)} />
     </section>
   );
 }

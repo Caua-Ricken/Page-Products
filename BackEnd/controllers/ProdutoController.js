@@ -86,5 +86,17 @@ module.exports = {
         }
     },
 
+    async buscarProduto(req, res) {
+
+        try {
+            const produtos = await Produto.findAll({ raw: true });
+            res.status(200).json(produtos);
+        } catch (error) {
+            console.error("Erro ao buscar produtos:", error);
+            res.status(500).json({ error: "Erro ao buscar produtos" });
+        }
+    },
+    
+
 
 }

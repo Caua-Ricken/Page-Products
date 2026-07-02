@@ -1,43 +1,112 @@
 .movimentacoes {
-  padding: 2rem;
+  width: 100%;
+  padding: 10px;
+  background: #0d1117;
+  color: #f9fafb;
+  font-family: "JetBrains Mono", monospace;
 }
 
-.movimentacoes-header {
-  margin-bottom: 2rem;
+.movimentacoes-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
 }
 
-.movimentacoes-header h2 {
-  margin-bottom: .5rem;
+.movimentacoes h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.movimentacoes p {
+  margin: 8px 0 0;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.movimentacoes-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.movimentacoes-actions select,
+.movimentacoes-actions button {
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #2d3748;
+  padding: 0 14px;
+  font-weight: bold;
+  font-family: inherit;
+}
+
+.movimentacoes-actions select {
+  background: #1a202c;
+  color: #ffffff;
+}
+
+.movimentacoes-actions button {
+  background: #d6b24c;
   color: #111827;
+  cursor: pointer;
+  border: none;
 }
 
-.movimentacoes-header p {
-  color: #6b7280;
+.table-box {
+  border: 1px solid #2d3748;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.coming-soon {
-  background: #fff;
-  border-radius: 18px;
-  padding: 4rem 2rem;
-  text-align: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
-  border: 1px solid #e5e7eb;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #171b22;
 }
 
-.coming-soon-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+thead {
+  background: #171b22;
 }
 
-.coming-soon h3 {
-  font-size: 2rem;
-  color: #111827;
-  margin-bottom: 1rem;
+th {
+  text-align: left;
+  padding: 14px;
+  font-size: 11px;
+  color: #94a3b8;
+  letter-spacing: 1px;
 }
 
-.coming-soon p {
-  max-width: 500px;
-  margin: 0 auto;
-  color: #6b7280;
-  line-height: 1.7;
+td {
+  padding: 13px 14px;
+  font-size: 14px;
+  border-top: 1px solid #2d3748;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.badge {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.badge.entrada {
+  background: #263b25;
+  color: #7ed957;
+}
+
+.badge.saida {
+  background: #3b2222;
+  color: #ff5f4f;
+}
+
+.delete-btn {
+  background: transparent;
+  color: #ff5f4f;
+  border: 1px solid #ff5f4f;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }

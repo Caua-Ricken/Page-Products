@@ -1,23 +1,90 @@
 import "../../public/css/ComponentsCss/modalMovimentacoes.css";
+import { useState, useEffect } from "react";
 
 function ModalMovimentacoes({ open, onClose, onSubmit }) {
   if (!open) return null;
 
-  function handleSubmit(e) {
+  const [dados, setDados] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const [produto, setProduto] = useState({
+    produto: "",
+    tipo: "entrada",
+    quantidade: 1,
+    data: new Date().toISOString().split("T")[0],
+    observacao: "",
+  });
+
+  const handleChange = (e) => {
+    setProduto({
+      ...produto,
+      [e.target.name]: e.target.value,
+    })
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
+    setLoading(true);
 
-    const dados = {
-      produto: formData.get("produto"),
-      tipo: formData.get("tipo"),
-      quantidade: formData.get("quantidade"),
-      data: formData.get("data"),
-      observacao: formData.get("observacao"),
-    };
+    try {
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/movimentacoes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(produto),
+      });
 
-    onSubmit(dados);
+      const data = await res.json();
+
+      if (!res.ok) {
+      console.log("Erro da API:", data);
+      return;
+    }
+
+    setProduto({
+      produto: "",
+      tipo: "entrada",
+      quantidade: 1,
+      data: new Date().toISOString().split("T")[0],
+      observacao: "",
+    });
+
+    onClose();
+
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const buscarProdutos = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("https://todo-list-ajcm.onrender.com/api/produto/buscar");
+      const data = await res.json();
+
+      setDados(data);
+
+      if (!res.ok) {
+        console.log("Erro da API:", data);
+      }
+  } catch (error) {
+      console.error("Erro ao buscar produtos:", error);
+  } finally {
+      setLoading(false);
+    }
+};
+
+useEffect(() => {
+  if (open) {
+    buscarProdutos();
   }
+}, [open]);
+
+  
 
   return (
     <div className="modal-mov-overlay">
@@ -27,23 +94,23 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
           <button type="button" onClick={onClose}>×</button>
         </div>
 
-        <form className="modal-mov-form" onSubmit={handleSubmit}>
+        <form className="modal-mov-form" onSubmit={handleFormSubmit}>
           <div className="mov-form-group">
             <label>PRODUTO</label>
-            <select name="produto" defaultValue="Água Mineral 500ml">
-              <option>Água Mineral 500ml (estoque: 96)</option>
-              <option>Detergente Multiuso 1L (estoque: 18)</option>
-              <option>Kit Higiene Premium (estoque: 3)</option>
-              <option>Refrigerante Lata 350ml (estoque: 7)</option>
-              <option>Sabonete Líquido Refil 5L (estoque: 4)</option>
-              <option>Toalha de Banho Branca (estoque: 42)</option>
+            <select name="produto" value={produto.produto} onChange={handleChange}>
+              <option value="">Selecione um produto</option>
+              {dados.map((item) => (
+                <option key={item.id} value={item.nome}>
+                  {item.nome}
+                </option>
+                ))}
             </select>
           </div>
 
           <div className="mov-form-row">
             <div className="mov-form-group">
               <label>TIPO</label>
-              <select name="tipo" defaultValue="entrada">
+              <select name="tipo" value={produto.tipo} onChange={handleChange}>
                 <option value="entrada">Entrada</option>
                 <option value="saida">Saída</option>
               </select>
@@ -55,7 +122,8 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
                 name="quantidade"
                 type="number"
                 min="1"
-                defaultValue="1"
+                value={produto.quantidade} 
+                onChange={handleChange}
                 required
               />
             </div>
@@ -66,7 +134,8 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
             <input
               name="data"
               type="date"
-              defaultValue="2026-06-29"
+              value={produto.data}
+              onChange={handleChange}
               required
             />
           </div>
@@ -75,6 +144,8 @@ function ModalMovimentacoes({ open, onClose, onSubmit }) {
             <label>OBSERVAÇÃO</label>
             <textarea
               name="observacao"
+              value={produto.observacao}
+              onChange={handleChange}
               placeholder="Opcional"
             ></textarea>
           </div>

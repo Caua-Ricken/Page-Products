@@ -18,8 +18,12 @@ function Dashboard() {
       const dataCategorias = await resCategorias.json();
       const dataProdutos = await resProdutos.json();
 
-      setCategorias(dataCategorias);
-      setProdutos(dataProdutos);
+      console.log("Categorias:", dataCategorias);
+      console.log("Produtos:", dataProdutos);
+
+      setCategorias(Array.isArray(dataCategorias) ? dataCategorias : []);
+      setProdutos(Array.isArray(dataProdutos) ? dataProdutos : []);
+
     } catch (error) {
       console.error("Erro ao buscar dados do dashboard:", error);
     } finally {
@@ -34,13 +38,17 @@ function Dashboard() {
   const totalCategorias = categorias.length;
   const totalProdutos = produtos.length;
 
-  const totalEstoque = produtos.reduce((total, produto) => {
-    return total + Number(produto.estoque || 0);
-  }, 0);
+  const totalEstoque = Array.isArray(produtos)
+    ? produtos.reduce((total, produto) => {
+      return total + Number(produto.estoque || 0);
+    }, 0)
+    : 0;
 
-  const produtosBaixoEstoque = produtos.filter((produto) => {
-    return Number(produto.estoque) < 5;
-  });
+  const produtosBaixoEstoque = Array.isArray(produtos)
+    ? produtos.filter((produto) => {
+      return Number(produto.estoque) < 5;
+    })
+    : [];
 
   if (loading) {
     return <p>Carregando dashboard...</p>;

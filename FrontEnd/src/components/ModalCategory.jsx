@@ -49,7 +49,7 @@ function ModalCategory({
     try {
       const url =
         modo === "editar"
-          ? "https://todo-list-ajcm.onrender.com/api/categoria/editar/${categoria.id}"
+          ? `https://todo-list-ajcm.onrender.com/api/categoria/editar/${categoria.id}`
           : "https://todo-list-ajcm.onrender.com/api/categoria";
 
       const method = modo === "editar" ? "PUT" : "POST";

@@ -156,7 +156,7 @@ A aplicação encontra-se publicada e pode ser acessada através do link abaixo:
 
 ### 🔗 Aplicação Web
 
-https://page-products-bfjoezz9d-caua-ricken.vercel.app/
+https://page-products-bgd7efdry-caua-ricken.vercel.app
 
 ---
 
